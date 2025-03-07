@@ -23,7 +23,7 @@ import { PatientFormValidation } from "@/lib/validation";
 import "react-datepicker/dist/react-datepicker.css";
 import "react-phone-number-input/style.css";
 import CustomFormField, { FormFieldType } from "../CustomFormField";
-import { FileUploader } from "../FileUploader";
+//import { FileUploader } from "../FileUploader";
 import SubmitButton from "../SubmitButton";
 
 const RegisterForm = ({ user }: { user: User }) => {
