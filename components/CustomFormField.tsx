@@ -40,16 +40,9 @@ interface CustomProps {
   children?: React.ReactNode;
   renderSkeleton?: (field: any) => React.ReactNode;
   fieldType: FormFieldType;
-  autoComplete?: string; // Add support for autoComplete
 }
 
 const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
-  const commonProps = {
-    id: props.name, // 👈 Every input now has a proper id
-    name: props.name, // 👈 Add name to match
-    autoComplete: props.autoComplete, // 👈 Pass autoComplete down if provided
-  };
-
   switch (props.fieldType) {
     case FormFieldType.INPUT:
       return (
@@ -65,9 +58,8 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           )}
           <FormControl>
             <Input
-              {...field}
-              {...commonProps} // 👈 Inject common props (id, name, autocomplete)
               placeholder={props.placeholder}
+              {...field}
               className="shad-input border-0"
             />
           </FormControl>
@@ -77,9 +69,8 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <Textarea
-            {...field}
-            {...commonProps}
             placeholder={props.placeholder}
+            {...field}
             className="shad-textArea"
             disabled={props.disabled}
           />
@@ -89,7 +80,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
       return (
         <FormControl>
           <PhoneInput
-            {...commonProps}
             defaultCountry="US"
             placeholder={props.placeholder}
             international
@@ -106,7 +96,6 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
           <div className="flex items-center gap-4">
             <Checkbox
               id={props.name}
-              name={props.name}
               checked={field.value}
               onCheckedChange={field.onChange}
             />
@@ -123,12 +112,11 @@ const RenderInput = ({ field, props }: { field: any; props: CustomProps }) => {
             src="/assets/icons/calendar.svg"
             height={24}
             width={24}
-            alt="calendar"
+            alt="user"
             className="ml-2"
           />
           <FormControl>
             <ReactDatePicker
-              {...commonProps}
               showTimeSelect={props.showTimeSelect ?? false}
               selected={field.value}
               onChange={(date: Date) => field.onChange(date)}
@@ -171,11 +159,10 @@ const CustomFormField = (props: CustomProps) => {
       render={({ field }) => (
         <FormItem className="flex-1">
           {props.fieldType !== FormFieldType.CHECKBOX && label && (
-            <FormLabel htmlFor={name} className="shad-input-label">
-              {label}
-            </FormLabel>
+            <FormLabel className="shad-input-label">{label}</FormLabel>
           )}
           <RenderInput field={field} props={props} />
+
           <FormMessage className="shad-error" />
         </FormItem>
       )}
